@@ -2,53 +2,61 @@
 const tableData = data;
 
 // get table references with d3.select()
-const tbody = //YOUR_CODE_HERE;
+const tbody = d3.select('tbody');
 
 // define a function called buildTable that takes an argument called data
 // the job of this function is to parse out the data and create an html table
-//YOUR_CODE_HERE
+function buildTable(data){
   // clear out any existing data in tbody by setting the .html() to an empty string
-  //YOUR_CODE_HERE;
+  tbody.html("");
 
   // Next, loop forEach() dataRow in the data
   // and append a row and cells for each value in the row
-  //YOUR_CODE_HERE
-    // .append() a table row "tr" to the tbody
-    const row = //YOUR_CODE_HERE;
+  data.forEach(
+    function(dataRow){
+      // .append() a table row "tr" to the tbody
+    const row = tbody.append('tr');
 
     // Loop through forEach val in the Object.values(dataRow)
-    //YOUR_CODE_HERE
-      // append each value as a table cell (td)
-      let cell = //YOUR_CODE_HERE;
-      // set the .text of cell to the val
-      //YOUR_CODE_HERE;
+    Object.values(dataRow).forEach(
+      function (value) {
+        // append each value as a table cell (td)
+        let cell = row.append('td');
+        // set the .text of cell to the val
+        cell.text(value);
+      });  
+    });
+};
+  
   
 
 // define a function handleClick() that takes no arguments
 // the job of this function is to 
-//YOUR_CODE_HERE 
-
+function handleClick() {
+  // prevent page from refershing
+  d3.event.preventDefault();
   // Grab the #datetime value from the filter with d3.select().property()
-  const date = //YOUR_CODE_HERE;
+  const date = d3.select("#datetime").property("value");
   // store the tableData into a local variable called filteredData
-  let filteredData = //YOUR_CODE_HERE;
+  let filteredData = tableData;
 
   // Check to see if a date was entered and filter the
   // data using that date.
-  //YOUR_CODE_HERE
+  if (date) {
     // Apply `filter` to the table data to only keep the
     // rows where the `datetime` value matches the filter value
-    //YOUR_CODE_HERE
-  
+    filteredData.filter((row) => row.datetime === date.toUpperCase());
+  };
 
   // Rebuild the table by calling you buildTable() function and passing in your filteredData variable
   // @NOTE: If no date was entered, then filteredData will
   // just be the original tableData.
-  //YOUR_CODE_HERE;
+  buildTable(filteredData);
+};
 
 
 // Attach an event to listen for the form button #filter-btn to be clicked, it should call your handleClick function
-//YOUR_CODE_HERE;
+d3.selectAll('#filter-btn').on('click', handleClick);
 
 // Build the table with your buildTable function when the page loads
-//YOUR_CODE_HERE;
+buildTable(tableData);
