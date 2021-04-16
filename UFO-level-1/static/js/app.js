@@ -28,7 +28,6 @@ function buildTable(data){
     });
 };
   
-  
 
 // define a function handleClick() that takes no arguments
 // the job of this function is to 
@@ -36,16 +35,16 @@ function handleClick() {
   // prevent page from refershing
   d3.event.preventDefault();
   // Grab the #datetime value from the filter with d3.select().property()
-  const date = d3.select("#datetime").property("value");
-  // store the tableData into a local variable called filteredData
-  let filteredData = tableData;
+  const date = d3.select("#datetime").property("value");   
 
   // Check to see if a date was entered and filter the
   // data using that date.
   if (date) {
     // Apply `filter` to the table data to only keep the
     // rows where the `datetime` value matches the filter value
-    filteredData.filter((row) => row.datetime === date.toUpperCase());
+    var filteredData = tableData.filter((row) => row.datetime === date.toUpperCase());
+  } else {
+    var filteredData = []
   };
 
   // Rebuild the table by calling you buildTable() function and passing in your filteredData variable
